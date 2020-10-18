@@ -1,205 +1,207 @@
 /*Header stuff*/
 .contrast-gradient {
-  position: absolute;
-  width: 1920px;
-  height: 485px;
-  left: 0px;
-  top: 0px;
-  background: linear-gradient(180deg, rgba(239, 110, 117, 0.2) 36.51%, rgba(196, 196, 196, 0) 85.45%, rgba(196, 196, 196, 0) 100%);
-  z-index: 1;
+    position: absolute;
+    width: 1920px;
+    height: 485px;
+    left: 0px;
+    top: 0px;
+    background: linear-gradient(180deg, rgba(239, 110, 117, 0.2) 36.51%, rgba(196, 196, 196, 0) 85.45%, rgba(196, 196, 196, 0) 100%);
+    z-index: 1;
 }
 
 #title-text {
-  position: absolute;
-  width: 285px;
-  height: 78px;
-  left: 2rem;
-  top: 1rem;
-  font-family: IBM Plex Sans;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 40px;
-  line-height: 50px;
-  /* identical to box height */
-  color: #4C4C4C;
-  z-index: 100;
+    position: absolute;
+    width: 285px;
+    height: 78px;
+    left: 2rem;
+    top: 1rem;
+    font-family: IBM Plex Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 50px;
+    /* identical to box height */
+    color: #4C4C4C;
+    z-index: 100;
 }
 
 .start-search-bar {
-  width: 574px;
-  height: 90px;
-  margin-left: 50px;
-  filter: drop-shadow(0px 4px 10px rgba(76, 76, 76, 0.25));
-  box-shadow: 0px 4px 10px rgba(76, 76, 76, 0.25);
-  background: #f5f5f5;
-  border-radius: 50px;
-  z-index: 150;
+    width: 574px;
+    height: 90px;
+    margin-left: 50px;
+    filter: drop-shadow(0px 4px 10px rgba(76, 76, 76, 0.25));
+    box-shadow: 0px 4px 10px rgba(76, 76, 76, 0.25);
+    background: #f5f5f5;
+    border-radius: 50px;
+    z-index: 150;
 }
+
 .end-search-bar {
-  width: 574px;
-  height: 75px;
-  margin-left: 90px;
-  filter: drop-shadow(0px 4px 10px rgba(76, 76, 76, 0.25));
-  box-shadow: 0px 4px 10px rgba(76, 76, 76, 0.25);
-  background: #f5f5f5;
-  border-radius: 50px;
-  z-index: 150;
+    width: 574px;
+    height: 75px;
+    margin-left: 90px;
+    filter: drop-shadow(0px 4px 10px rgba(76, 76, 76, 0.25));
+    box-shadow: 0px 4px 10px rgba(76, 76, 76, 0.25);
+    background: #f5f5f5;
+    border-radius: 50px;
+    z-index: 150;
 }
+
 ::placeholder {
-  color: #EF6E75;
-  font-family: IBM Plex Sans;
-  font-style: normal;
-  font-weight: light;
-  font-size: 20px;
-  top: 75%;
-  display: flex;
+    color: #EF6E75;
+    font-family: IBM Plex Sans;
+    font-style: normal;
+    font-weight: light;
+    font-size: 20px;
+    top: 75%;
+    display: flex;
 }
 
 /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
-       #map {
-        height: 100%;
-      }
-      
-      /* Optional: Makes the sample page fill the window. */
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      
-      #description {
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-      }
-      
-      #infowindow-content .title {
-        font-weight: bold;
-      }
-      
-      #infowindow-content {
-        display: none;
-      }
-      
-      #map #infowindow-content {
-        display: inline;
-      }
-      
-      .pac-card {
-        margin: 10px 10px 0 0;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        outline: none;
-        font-family: Roboto;
-        float: right;
-        z-index: 150;
-      }
-      
-      #pac-container {
-        padding-bottom: 12px;
-        margin-right: 12px;
-      }
-      
-      .pac-controls {
-        display: inline-block;
-        padding: 5px 11px;
-      }
-      
-      .pac-controls label {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 300;
-      }
-      
-      #destination, #origin {
-        background-color: #fff;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        margin-left: 12px;
-        margin-top: 12px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 400px;
-        height: 35px;
-      }
-      
-      #destination:focus #origin:focus {
-        border-color: #4d90fe;
-      }
-      
-      #title {
-        color: #fff;
-        background-color: #4d90fe;
-        font-size: 25px;
-        font-weight: 500;
-        padding: 6px 12px;
-      }
+#map {
+    height: 100%;
+}
 
-      #text-container {
-        position: absolute;
-        margin: 25px 10px 0 0;
-        border-radius: 25px;
-        border: 2px solid transparent;
-        font-family: IBM Plex Sans;
-        float: left;
-        left: 50px;
-        top: 100px;
-        z-index: 150;
-        background-color: white;
-        width: 350px;
-        height: 500px;
-        display: none;
-      }
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 
-      #text-container #close-button {
-        cursor: pointer;
-        font-family: IBM Plex Sans;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 36px;
-        background-color: transparent;
-        border: none;
-        float: right;
-        color: #EF6E75;
-        margin-top: 17px;
-        margin-right: 25px;
-      }
+#description {
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+}
 
-      #text-container h3 {
-        font-family: IBM Plex Sans;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 36px;
-        line-height: 47px;
-        /* identical to box height */
-        color: #4C4C4C;
-      }
+#infowindow-content .title {
+    font-weight: bold;
+}
 
-      #text-container .text-container-header {
-        position: relative;
-        float: left;
-        left: 25px; 
-        top: 25px;
-        font-family: IBM Plex Sans;
-      }
+#infowindow-content {
+    display: none;
+}
 
-      #text-container h4 {
-        font-family: IBM Plex Sans;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 25px;
-        line-height: 47px;
-        /* identical to box height */
-        color: #4C4C4C;
-      }
+#map #infowindow-content {
+    display: inline;
+}
 
-      #text-container .quarantine {
-        position: relative;
-        margin-top: 75px;
-        margin-left: 25px;
-        margin-right: 25px;
-      }
+.pac-card {
+    margin: 10px 10px 0 0;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
+    font-family: Roboto;
+    float: right;
+    z-index: 150;
+}
+
+#pac-container {
+    padding-bottom: 12px;
+    margin-right: 12px;
+}
+
+.pac-controls {
+    display: inline-block;
+    padding: 5px 11px;
+}
+
+.pac-controls label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
+}
+
+#destination, #origin {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    margin-top: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 400px;
+    height: 35px;
+}
+
+#destination:focus #origin:focus {
+    border-color: #4d90fe;
+}
+
+#title {
+    color: #fff;
+    background-color: #4d90fe;
+    font-size: 25px;
+    font-weight: 500;
+    padding: 6px 12px;
+}
+
+#text-container {
+    position: absolute;
+    margin: 25px 10px 0 0;
+    border-radius: 25px;
+    border: 2px solid transparent;
+    font-family: IBM Plex Sans;
+    float: left;
+    left: 50px;
+    top: 100px;
+    z-index: 150;
+    background-color: white;
+    width: 350px;
+    height: 500px;
+    display: none;
+}
+
+#text-container #close-button {
+    cursor: pointer;
+    font-family: IBM Plex Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    background-color: transparent;
+    border: none;
+    float: right;
+    color: #EF6E75;
+    margin-top: 17px;
+    margin-right: 25px;
+}
+
+#text-container h3 {
+    font-family: IBM Plex Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 47px;
+    /* identical to box height */
+    color: #4C4C4C;
+}
+
+#text-container .text-container-header {
+    position: relative;
+    float: left;
+    left: 25px;
+    top: 25px;
+    font-family: IBM Plex Sans;
+}
+
+#text-container h4 {
+    font-family: IBM Plex Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 47px;
+    /* identical to box height */
+    color: #4C4C4C;
+}
+
+#text-container .quarantine {
+    position: relative;
+    margin-top: 75px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
