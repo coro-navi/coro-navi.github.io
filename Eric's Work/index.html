@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Coro-navi</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApxk4WsYyhEHzh4mHWtCqNLrH3S855_b8&callback=initMap&libraries=places&v=weekly&region=US"
+      defer
+    ></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/index.css') }}">
+  </head>
+  <body>
+    <!-- <span class="contrast-gradient"></span> -->
+    <h1 id="title-text">coro-navi.</h1> 
+    <div class="pac-card" id="pac-card">
+      <div id="pac-container">
+        <input class="start-search-bar" id="origin" type="text" placeholder="Enter Origin"/>
+        <input class="end-search-bar" id="destination" type="text" placeholder="Enter a Destination"/>
+      </div>
+    </div>
+
+    <div id="text-container">
+      <h3 id="state-identifier" class="text-container-header">Seattle, WA</h3>
+      <button id="close-button" aria-label="Close Account Info Modal Box">×</button>
+      <div id="quarantine-info" class="quarantine">
+        <h4>Quarantine Rules</h4>
+        <!-- <ul>
+          <li>Hello</li>
+          <li>There</li>
+        </ul> -->
+      </div>
+    </div>
+
+    <div id="map"></div>
+    <div id="infowindow-content">
+      <img src="" width="16" height="16" id="place-icon" />
+      <span id="place-name" class="title"></span><br />
+      <span id="place-address"></span>
+    </div>
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
