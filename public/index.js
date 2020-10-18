@@ -13,7 +13,6 @@ firebase.initializeApp(config);
 function initMap() {
 
     // Get a reference to the database service
-    var database = firebase.database();
     const map = new google.maps.Map(document.getElementById("map"), {
         center: {
             lat: 47.762354,
@@ -24,17 +23,14 @@ function initMap() {
         fullscreenControl: false,
     });
 
-    const card = document.getElementById("pac-card");
-    const header = document.getElementById("title-text")
 
-    const origin = document.getElementById("origin");
-    const destination = document.getElementById("destination");
+    // const origin = document.getElementById("origin");
+    // const destination = document.getElementById("destination");
 
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(card);
-    // map.controls[google.maps.ControlPosition.LEFT_TOP].push(header);
-
+    /*
     const destAutocomplete = new google.maps.places.Autocomplete(destination);
     const originAutocomplete = new google.maps.places.Autocomplete(origin);
+
     // Bind the map's bounds (viewport) property to the autocomplete object,
     // so that the autocomplete requests use the current map bounds for the
     // bounds option in the request.
@@ -47,55 +43,127 @@ function initMap() {
     const infowindowContent = document.getElementById("infowindow-content");
     infowindow.setContent(infowindowContent);
     const marker = new google.maps.Marker({
-        map,
-        anchorPoint: new google.maps.Point(0, -29),
+      map,
+      anchorPoint: new google.maps.Point(0, -29),
     });
 
     destAutocomplete.addListener("place_changed", () => {
-        infowindow.close();
-        marker.setVisible(false);
-        const place = destAutocomplete.getPlace();
+      infowindow.close();
+      marker.setVisible(false);
+      const place = destAutocomplete.getPlace();
 
-        if (!place.geometry) {
-            // User entered the name of a Place that was not suggested and
-            // pressed the Enter key, or the Place Details request failed.
-            window.alert("No details available for input: '" + place.name + "'");
+      if (!place.geometry) {
+        // User entered the name of a Place that was not suggested and
+        // pressed the Enter key, or the Place Details request failed.
+        window.alert("No details available for input: '" + place.name + "'");
+        return;
+      }
+
+      displayInfoTab(destination.value);
+
+      // If the place has a geometry, then present it on a map.
+      if (place.geometry.viewport) {
+        map.fitBounds(place.geometry.viewport);
+      } else {
+        map.setCenter(place.geometry.location);
+        map.setZoom(17); // Why 17? Because it looks good.
+      }
+      marker.setPosition(place.geometry.location);
+      marker.setVisible(true);
+      let address = "";
+
+      if (place.address_components) {
+        address = [
+          (place.address_components[0] &&
+            place.address_components[0].short_name) ||
+            "",
+          (place.address_components[1] &&
+            place.address_components[1].short_name) ||
+            "",
+          (place.address_components[2] &&
+            place.address_components[2].short_name) ||
+            "",
+        ].join(" ");
+      }
+      infowindowContent.children["place-icon"].src = place.icon;
+      infowindowContent.children["place-name"].textContent = place.name;
+      infowindowContent.children["place-address"].textContent = address;
+      infowindow.open(map, marker);
+
+    });*/
+    new AutoCompleteDirectionsHandler(map);
+}
+
+class AutoCompleteDirectionsHandler {
+
+    constructor(map) {
+        this.map = map;
+        this.originPlaceId = "";
+        this.destinationPlaceId = "";
+        this.travelMode = google.maps.TravelMode.DRIVING;
+        this.directionsService = new google.maps.DirectionsService();
+        this.directionsRenderer = new google.maps.DirectionsRenderer();
+        this.directionsRenderer.setMap(map);
+        const originInput = document.getElementById("origin");
+        const destinationInput = document.getElementById("destination");
+        const originAutocomplete = new google.maps.places.Autocomplete(originInput);
+
+        // Specify just the place data fields that you need.
+        originAutocomplete.setFields(["place_id"]);
+        const destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
+        destinationAutocomplete.setFields(["place_id"])
+        this.setupPlaceChangedListener(originAutocomplete, "ORIG");
+
+        this.setupPlaceChangedListener(destinationAutocomplete, "DEST");
+
+        const card = document.getElementById("pac-card");
+
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(card);
+    }
+
+    setupPlaceChangedListener(autocomplete, mode) {
+        autocomplete.bindTo("bounds", this.map);
+        autocomplete.addListener("place_changed", () => {
+            const place = autocomplete.getPlace();
+
+            if (!place.place_id) {
+                window.alert("Please select an option from the dropdown list.");
+                return;
+            }
+
+            if (mode === "ORIG") {
+                this.originPlaceId = place.place_id;
+            } else {
+                this.destinationPlaceId = place.place_id;
+            }
+            this.route();
+        });
+    }
+    route() {
+        if (!this.originPlaceId || !this.destinationPlaceId) {
             return;
         }
+        const me = this;
+        this.directionsService.route({
+                origin: {
+                    placeId: this.originPlaceId
+                },
+                destination: {
+                    placeId: this.destinationPlaceId
+                },
+                travelMode: this.travelMode,
+            },
+            (response, status) => {
+                if (status === "OK") {
+                    me.directionsRenderer.setDirections(response);
+                    displayInfoTab(document.getElementById("destination").value);
+                } else {
+                    window.alert("Directions request failed due to " + status);
+                }
+            }
+        );
+    }
 
-        displayInfoTab(destination.value);
-
-        // If the place has a geometry, then present it on a map.
-        if (place.geometry.viewport) {
-            map.fitBounds(place.geometry.viewport);
-        } else {
-            map.setCenter(place.geometry.location);
-            map.setZoom(17); // Why 17? Because it looks good.
-        }
-        marker.setPosition(place.geometry.location);
-        marker.setVisible(true);
-        let address = "";
-
-        if (place.address_components) {
-            address = [
-                (place.address_components[0] &&
-                    place.address_components[0].short_name) ||
-                "",
-                (place.address_components[1] &&
-                    place.address_components[1].short_name) ||
-                "",
-                (place.address_components[2] &&
-                    place.address_components[2].short_name) ||
-                "",
-            ].join(" ");
-        }
-        infowindowContent.children["place-icon"].src = place.icon;
-        infowindowContent.children["place-name"].textContent = place.name;
-        infowindowContent.children["place-address"].textContent = address;
-        infowindow.open(map, marker);
-    });
-
-    // new AutoCompleteDirectionsHandler(map);
 }
 
 function displayInfoTab(address) {
@@ -128,79 +196,32 @@ function displayInfoTab(address) {
         const textContainer = document.getElementById("text-container");
         textContainer.style.display = "block";
         console.log(textContainer.style.display);
+
+        var testingCenters = snapshot.val()["TestingCenters"];
+        var testingCentersList = testingCenters.split(",");
+        const testingHeader = document.createElement("h4");
+        testingHeader.innerHTML = "Closest Test Centers";
+        quarantineSection.appendChild(testingHeader);
+        var testingList = document.createElement('ul');
+        testingCentersList.forEach(function(content) {
+            console.log("Adding elem");
+            var li = document.createElement('li');
+            li.textContent = content;
+            testingList.appendChild(li);
+        });
+        quarantineSection.appendChild(testingList);
     });
 
+    fetchText();
+}
+
+async function fetchText() {
+    let response = await fetch('https://covid-19-testing.github.io/locations/new-york/complete.json?fbclid=IwAR1TgM3cW2Asq6279wq5Zk7XcxNAHf32fAaUEdfwie0CU08DYhF1Peq7UWs');
+    let data = await response.text();
+    console.log(data);
 }
 
 document.getElementById("close-button").addEventListener("click", function() {
     document.getElementById("text-container").style.display = 'none';
     document.getElementById("quarantine-ul").remove();
 });
-
-/*
-class AutoCompleteDirectionsHandler {
-
-  constructor(map) {
-    this.map = map;
-    this.originPlaceId = "";
-    this.destinationPlaceId = "";
-    this.travelMode = google.maps.TravelMode.DRIVING;
-    this.directionsService = new google.maps.DirectionsService();
-    this.directionsRenderer = new google.maps.DirectionsRenderer();
-    this.directionsRenderer.setMap(map);
-    const originInput = document.getElementById("origin");
-    const destinationInput = document.getElementById("destination");
-    const originAutocomplete = new google.maps.places.Autocomplete(originInput);
-    // Specify just the place data fields that you need.
-    originAutocomplete.setFields(["place_id"]);
-    const destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
-    destinationAutocomplete.setFields(["place_id"])
-    this.setupPlaceChangedListener(originAutocomplete, "ORIG");
-    this.setupPlaceChangedListener(destinationAutocomplete, "DEST");
-
-    const card = document.getElementById("pac-card");
-
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
-  }
-
-  setupPlaceChangedListener(autocomplete, mode) {
-    autocomplete.bindTo("bounds", this.map);
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
-
-      if (!place.place_id) {
-        window.alert("Please select an option from the dropdown list.");
-        return;
-      }
-
-      if (mode === "ORIG") {
-        this.originPlaceId = place.place_id;
-      } else {
-        this.destinationPlaceId = place.place_id;
-      }
-      this.route();
-    });
-  }
-  route() {
-    if (!this.originPlaceId || !this.destinationPlaceId) {
-      return;
-    }
-    const me = this;
-    this.directionsService.route(
-      {
-        origin: { placeId: this.originPlaceId },
-        destination: { placeId: this.destinationPlaceId },
-        travelMode: this.travelMode,
-      },
-      (response, status) => {
-        if (status === "OK") {
-          me.directionsRenderer.setDirections(response);
-        } else {
-          window.alert("Directions request failed due to " + status);
-        }
-      }
-    );
-  }
-
-}
-*/
